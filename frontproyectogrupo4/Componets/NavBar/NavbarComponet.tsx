@@ -24,7 +24,7 @@ export default function NavbarComponet() {
             <ul className="navbar-nav">
               <li className="nav-item">                
                 <Link className="nav-link active" aria-current="page" href="/login">
-                  Inicio
+                    Login
                 </Link>
               </li>
               <li className="nav-item">
