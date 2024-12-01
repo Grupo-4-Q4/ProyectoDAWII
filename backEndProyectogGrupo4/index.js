@@ -1,6 +1,9 @@
 import express from 'express'
 import Usuario from './modelos/usuarioModelo.js'
 import cors from 'cors'
+import scrapingColonia from './scraping/lacolonia.js'
+import scrapingWalmart from './scraping/walmart.js'
+
 
 const app = express()
 
