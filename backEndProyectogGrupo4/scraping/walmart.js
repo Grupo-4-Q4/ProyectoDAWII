@@ -77,9 +77,6 @@ for (let i = 0; i < categorias.length; i++) {
               return { nombre, precio, imagen, estatus, categoria };
             } else {
               estatus = false;
-              const nombre =
-                item.querySelector(".vtex-product-summary-2-x-brandName")
-                  .innerText + " Agotado";
               const precio = 0;
               return { nombre, precio, imagen, estatus, categoria };
             }

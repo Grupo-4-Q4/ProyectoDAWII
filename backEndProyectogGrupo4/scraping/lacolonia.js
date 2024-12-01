@@ -123,7 +123,7 @@ for (let i = 0; i < categorias.length; i++) {
     }
   }
 }
-
+console.log(Productos)
 await Productos.forEach(async (producto) => {
   const precio = parseFloat(
     producto.precioEntero + "." + producto.precioDecimal
@@ -136,7 +136,7 @@ await Productos.forEach(async (producto) => {
     const product = await Producto_Colonia.create({
       nombreProducto: producto.nombreProducto,
       precioProducto: precio,
-      imagenProducto: producto.imagen,
+      imagenProducto: producto.imagenProducto,
       disponible: producto.status,
       categoria: producto.categoria,
     });
@@ -145,13 +145,13 @@ await Productos.forEach(async (producto) => {
       {
         nombreProducto: producto.nombreProducto,
         precioProducto: precio,
-        imagenProducto: producto.imagen,
+        imagenProducto: producto.imagenProducto,
         disponible: producto.status,
         categoria: producto.categoria,
       },
       { where: { nombreProducto: producto.nombreProducto } }
     );
   }
-});
+}); 
 await console.log("Se agregaron:", Productos.length, "Productos");
 await browser.close();
