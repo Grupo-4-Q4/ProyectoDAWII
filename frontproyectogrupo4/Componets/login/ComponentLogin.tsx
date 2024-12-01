@@ -28,19 +28,16 @@ export default function ComponentLogin() {
     getUsuarios();
   }, []);
 
-  const handleLogin = (e: React.FormEvent) => {
+  const buscarLogin = (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
 
-    // Validar el usuario y contraseña
     const usuario = usuarios.find((user) => user.Email === email && user.password === password);
     console.log('Usuario encontrado:', usuario);
 
     if (usuario) {
-      // Redirige al usuario después del login exitoso
       router.push('/buscarproducto');
     } else {
-      // Muestra un mensaje de error si las credenciales son incorrectas
       setError('Correo o contraseña incorrectos.');
     }
   };
@@ -57,7 +54,7 @@ export default function ComponentLogin() {
             <div className="card">
               <div className="card-body">
                 <h5 className="card-title text-center">Iniciar Sesión</h5>
-                <form onSubmit={handleLogin}>
+                <form onSubmit={buscarLogin}>
                   <div className="mb-3">
                     <label htmlFor="usuario" className="form-label">Usuario</label>
                     <input
