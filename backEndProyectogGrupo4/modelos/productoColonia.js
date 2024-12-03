@@ -27,6 +27,10 @@ const Producto_Colonia = sequelize.define('producto',{
     categoria:{
         type: DataTypes.STRING,
         allowNull:true
+    },
+    origen: {
+        type: DataTypes.STRING,
+        allowNull:false
     }
 },
 {

@@ -96,7 +96,7 @@ async function scrapingColonia(){
               ).innerText;
               status = true;
             }
-            return { nombre, precioEntero, precioDecimal, imagen, status };
+            return { nombre, precioEntero, precioDecimal, imagen, status, origen:'lacolonia' };
           });
         });
         productos = productos.map((producto) => {
@@ -107,6 +107,7 @@ async function scrapingColonia(){
             imagenProducto: producto.imagen,
             disponible: producto.status,
             categoria: categoria,
+            origen: producto.origen
           });
         });
   
@@ -140,6 +141,7 @@ async function scrapingColonia(){
         imagenProducto: producto.imagenProducto,
         disponible: producto.status,
         categoria: producto.categoria,
+        origen: producto.origen
       });
     } else {
       const product = await Producto_Colonia.update(
@@ -149,6 +151,7 @@ async function scrapingColonia(){
           imagenProducto: producto.imagenProducto,
           disponible: producto.status,
           categoria: producto.categoria,
+          origen: producto.origen
         },
         { where: { nombreProducto: producto.nombreProducto } }
       );

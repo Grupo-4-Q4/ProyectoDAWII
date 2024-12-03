@@ -79,7 +79,7 @@ async function scrapingWalmart() {
               } else {
                 estatus = false;
                 const precio = 0;
-                return { nombre, precio, imagen, estatus, categoria };
+                return { nombre, precio, imagen, estatus, categoria, origen: 'walmart' };
               }
             });
           }, categoriaActual);
@@ -114,6 +114,7 @@ async function scrapingWalmart() {
           imagenProducto: producto.imagen,
           disponible: producto.estatus,
           categoria: producto.categoria,
+          origen: producto.origen
         },
         { where: { nombreProducto: producto.nombre } }
       );
@@ -124,6 +125,7 @@ async function scrapingWalmart() {
         imagenProducto: producto.imagen,
         disponible: producto.estatus,
         categoria: producto.categoria,
+        origen: producto.origen
       });
     }
   });
