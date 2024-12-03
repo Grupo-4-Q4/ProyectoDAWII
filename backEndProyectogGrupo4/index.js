@@ -1,7 +1,6 @@
 import express from 'express'
 import Usuario from './modelos/usuarioModelo.js'
 import cors from 'cors'
-
 import scrapingColonia from './scraping/lacolonia.js'
 import scrapingWalmart from './scraping/walmart.js'
 import Producto_Colonia from './modelos/productoColonia.js'
@@ -9,12 +8,12 @@ import Producto_Walmart from './modelos/productoWalmart.js'
 import stringComparison from 'string-comparison'
 
 let lcs = stringComparison.longestCommonSubsequence
-
+var numeros = 0
 const app = express()
 
 app.use(express.json())
 app.use(cors())
-
+mensaje() 
 
 function filtrarProductos(palabra,productos){
     let ProductosFiltrados = []
@@ -27,9 +26,6 @@ function filtrarProductos(palabra,productos){
     });
     return(ProductosFiltrados)
 }
-
-
-
 
 app.get('/usuario', async(req,res)=>{
     try {
@@ -50,7 +46,6 @@ app.post('/usuario', async (req,res)=>{
         res.status(500).json({error: 'Ocurrio un error' + error});
     }
 })
-
 
 app.get('/producto:nombreProducto', async(req,res)=>{
     try {
@@ -85,7 +80,7 @@ app.get('/compararProducto:productoID&:origen', async(req,res)=>{
          let listadoRespuesta = []
          listadoCompletoWalmart.forEach(producto =>{
             const similarity = lcs.similarity(producto.nombreProducto, Producto[0].nombreProducto)
-            if (similarity >= 0.60){
+            if (similarity >= 0.70){
                 listadoRespuesta = [...listadoRespuesta, producto]
             }
          })
@@ -96,7 +91,7 @@ app.get('/compararProducto:productoID&:origen', async(req,res)=>{
          let listadoRespuesta = []   
          listadoCompletoColonia.forEach(producto => {
             const similarity = lcs.similarity(producto.nombreProducto, Producto[0].nombreProducto )
-            if(similarity >= 0.60){
+            if(similarity >= 0.70){
                 listadoRespuesta = [...listadoRespuesta, producto]
             }
          }); 
@@ -104,7 +99,6 @@ app.get('/compararProducto:productoID&:origen', async(req,res)=>{
     }
         
 })
-
 
 app.put('/usuario:idUsuario', async (req,res)=>{
     try {
@@ -138,7 +132,11 @@ app.delete('/usuario:idUsuario', async (req,res)=>{
     }
 })
 
+function mensaje(){
+    numeros = 1
+    console.log('mensaje de prueba', numeros)    
+}
+
 app.listen(5000,()=>{
     console.log('aplicacion ejecutando en el puerto 5000')
 })
-
