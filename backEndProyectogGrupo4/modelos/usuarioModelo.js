@@ -18,7 +18,7 @@ const Usuario = sequelize.define(
       allowNull: false,
     },
     fechaNacimiento: {
-      type: DataTypes.STRING,
+      type: DataTypes.DATE,
       allowNull: false,
     },
     telefono: {

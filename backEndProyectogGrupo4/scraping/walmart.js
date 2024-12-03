@@ -1,6 +1,7 @@
 import puppeteer from "puppeteer";
 import Producto_Walmart from "../modelos/productoWalmart.js";
 
+
 async function scrapingWalmart() {
   const browser = await puppeteer.launch({
     headless: false,
@@ -134,3 +135,4 @@ async function scrapingWalmart() {
 }
 
 export default scrapingWalmart
+

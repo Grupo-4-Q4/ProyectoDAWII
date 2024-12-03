@@ -1,6 +1,7 @@
 import express from 'express'
 import Usuario from './modelos/usuarioModelo.js'
 import cors from 'cors'
+
 import scrapingColonia from './scraping/lacolonia.js'
 import scrapingWalmart from './scraping/walmart.js'
 import Producto_Colonia from './modelos/productoColonia.js'
@@ -8,10 +9,12 @@ import Producto_Walmart from './modelos/productoWalmart.js'
 import stringComparison from 'string-comparison'
 
 let lcs = stringComparison.longestCommonSubsequence
+
 const app = express()
 
 app.use(express.json())
 app.use(cors())
+
 
 function filtrarProductos(palabra,productos){
     let ProductosFiltrados = []
@@ -24,6 +27,7 @@ function filtrarProductos(palabra,productos){
     });
     return(ProductosFiltrados)
 }
+
 
 
 
@@ -46,6 +50,7 @@ app.post('/usuario', async (req,res)=>{
         res.status(500).json({error: 'Ocurrio un error' + error});
     }
 })
+
 
 app.get('/producto:nombreProducto', async(req,res)=>{
     try {
@@ -100,6 +105,7 @@ app.get('/compararProducto:productoID&:origen', async(req,res)=>{
         
 })
 
+
 app.put('/usuario:idUsuario', async (req,res)=>{
     try {
         const [updated] = await Usuario.update(red.body,{
@@ -135,3 +141,4 @@ app.delete('/usuario:idUsuario', async (req,res)=>{
 app.listen(5000,()=>{
     console.log('aplicacion ejecutando en el puerto 5000')
 })
+

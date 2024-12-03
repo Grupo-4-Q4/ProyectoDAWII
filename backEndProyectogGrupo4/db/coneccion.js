@@ -4,6 +4,7 @@ const sequelize = new Sequelize(
     'proyecto',
     'root',
     'MySecretPassword',
+
     {
         host: process.env.host,
         port: process.env.port,
