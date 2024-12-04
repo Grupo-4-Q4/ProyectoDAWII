@@ -47,12 +47,12 @@ app.post("/usuario", async (req, res) => {
   }
 });
 
-app.get("/producto:nombreProducto", async (req, res) => {
+app.get("/producto/:nombreProducto", async (req, res) => {
   try {
     const productosColonia = await Producto_Colonia.findAll();
     const productosWalmart = await Producto_Walmart.findAll();
 
-    const arregloBusqueda = req.params.nombreProducto.substr(1).split(" ");
+    const arregloBusqueda = req.params.nombreProducto.split(" ");
     console.log(arregloBusqueda);
 
     let resultadoColonia = productosColonia;
@@ -71,13 +71,14 @@ app.get("/producto:nombreProducto", async (req, res) => {
   }
 });
 
-app.get("/compararProducto:productoID&:origen", async (req, res) => {
+app.get("/compararProducto/:productoID&:origen", async (req, res) => {
   const origen = req.params.origen;
-  const pID = req.params.productoID.slice(1);
+  const pID = req.params.productoID;
   if (origen == "lacolonia") {
     const Producto = await Producto_Colonia.findAll({
       where: { idProducto: parseInt(pID) },
     });
+    const listaNombreProducto = Producto[0].nombreProducto.split(' ')
     const listadoCompletoWalmart = await Producto_Walmart.findAll();
     let listadoRespuesta = [];
     listadoCompletoWalmart.forEach((producto) => {
@@ -85,7 +86,9 @@ app.get("/compararProducto:productoID&:origen", async (req, res) => {
         producto.nombreProducto,
         Producto[0].nombreProducto
       );
-      if (distancia < 30) {
+      if (distancia < 30 && producto.nombreProducto.includes(listaNombreProducto[0])) {
+        listadoRespuesta = [...listadoRespuesta, producto];
+      }else if(distancia < 30 && producto.nombreProducto.includes(listaNombreProducto[1])){
         listadoRespuesta = [...listadoRespuesta, producto];
       }
     });
@@ -94,14 +97,17 @@ app.get("/compararProducto:productoID&:origen", async (req, res) => {
     const Producto = await Producto_Walmart.findAll({
       where: { idProducto: parseInt(pID) },
     });
+    const listaNombreProducto = Producto[0].nombreProducto.split(' ')
     const listadoCompletoColonia = await Producto_Colonia.findAll();
     let listadoRespuesta = [];
     listadoCompletoColonia.forEach((producto) => {
-      const distance = levenshtein.distance(
+      const distancia = levenshtein.distance(
         producto.nombreProducto,
         Producto[0].nombreProducto
       );
-      if (distance < 30) {
+      if (distancia < 30 && producto.nombreProducto.includes(listaNombreProducto[0])) {
+        listadoRespuesta = [...listadoRespuesta, producto];
+      } else if(distancia < 30 && producto.nombreProducto.includes(listaNombreProducto[1])){
         listadoRespuesta = [...listadoRespuesta, producto];
       }
     });
