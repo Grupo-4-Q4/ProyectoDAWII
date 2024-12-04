@@ -37,10 +37,10 @@ app.get("/usuario", async (req, res) => {
   }
 });
 
+
 app.post("/usuario", async (req, res) => {
   try {
     const usuario = await Usuario.create(req.body);
-
     res.status(201).json({ mensaje: "usuario creado con exito" });
   } catch (error) {
     res.status(500).json({ error: "Ocurrio un error" + error });
@@ -145,7 +145,6 @@ app.post("/listaproductos", async (req, res) => {
   try {
     const idUsuario = req.body.idUsuario;
     const lista = req.body.lista;
-
     const nuevalista = await ListaProductos.create({ idUsuario });
 
     for (let i = 0; i < lista.length; i++) {
@@ -161,6 +160,7 @@ app.post("/listaproductos", async (req, res) => {
     res.status(500).json({ error: "Ocurrio un error" + error });
   }
 });
+
 
 app.listen(5000, () => {
   console.log("aplicacion ejecutando en el puerto 5000");
@@ -181,3 +181,4 @@ app.get("/listaproductos", async (req, res) => {
     res.status(500).json({ error: "Ocurrio un error" + error });
   }
 });
+
