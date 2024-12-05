@@ -115,7 +115,7 @@ app.get("/compararProducto/:productoID&:origen", async (req, res) => {
   }
 });
 
-app.put("/usuario:idUsuario", async (req, res) => {
+app.put("/usuario/:idUsuario", async (req, res) => {
   try {
     const [updated] = await Usuario.update(req.body, {
       where: { idUsuario: req.params.idUsuario },
