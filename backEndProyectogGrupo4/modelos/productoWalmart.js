@@ -31,6 +31,7 @@ const Producto_Walmart = sequelize.define('producto',{
     origen: {
         type: DataTypes.STRING,
         allowNull:false
+
     }
 },
 {

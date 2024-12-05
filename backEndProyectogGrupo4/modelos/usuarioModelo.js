@@ -1,4 +1,4 @@
-import { DataTypes, STRING } from "sequelize";
+import { DataTypes } from "sequelize";
 import sequelize from "../db/coneccion.js";
 
 const Usuario = sequelize.define(
@@ -18,7 +18,7 @@ const Usuario = sequelize.define(
       allowNull: false,
     },
     fechaNacimiento: {
-      type: DataTypes.STRING,
+      type: DataTypes.DATE,
       allowNull: false,
     },
     telefono: {
