@@ -47,24 +47,22 @@ app.post("/usuario", async (req, res) => {
   }
 });
 
-app.get("/producto/:nombreProducto", async (req, res) => {
+app.get("/producto/:nombreProducto&:origen", async (req, res) => {
   try {
-    const productosColonia = await Producto_Colonia.findAll();
-    const productosWalmart = await Producto_Walmart.findAll();
+    let productos = []
+    if(req.params.origen == 'walmart'){
+      productos = await Producto_Walmart.findAll();
+    }else{
+      productos = await Producto_Colonia.findAll();
+    }    
 
     const arregloBusqueda = req.params.nombreProducto.split(" ");
-    console.log(arregloBusqueda);
 
-    let resultadoColonia = productosColonia;
+    let resultado = productos;
     arregloBusqueda.forEach((palabra) => {
-      resultadoColonia = filtrarProductos(palabra, resultadoColonia);
+      resultado = filtrarProductos(palabra, resultado);
     });
 
-    let resultadoWalmart = productosWalmart;
-    arregloBusqueda.forEach((palabra) => {
-      resultadoWalmart = filtrarProductos(palabra, resultadoWalmart);
-    });
-    const resultado = [...resultadoWalmart, ...resultadoColonia];
     res.status(200).json(resultado);
   } catch (error) {
     res.status(500).json({ error: "Ocurrio un error" + error });

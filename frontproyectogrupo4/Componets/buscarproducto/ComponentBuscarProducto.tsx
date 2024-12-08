@@ -3,17 +3,29 @@ import { Producto } from '@/Modelos/Producto'
 import api from '@/Service/api'
 import React, { useState } from 'react'
 import { useRouter } from 'next/navigation';
-
 export default function ComponentBuscarProducto() {
   const [nombreProducto, setNombreProducto] = useState<string>('')
   const [resultadoBusqueda, setResultadoBusqueda] = useState<Producto[]>([])
   const [resultadoComparacion, setResultadoComparacion] = useState<Producto[]>([])
-  const router = useRouter() 
+  const router = useRouter()
+  const [opcionBusqueda, setOpcionBusqueda] = useState<string>('walmart')
 
-  async function buscarProducto(nombreProducto: string) {
+  const handleOpcionBusqueda= (value:string)=>{
+    setOpcionBusqueda(value)
+  }
+
+  async function buscarProducto(nombreProducto: string, origen: string) {
     try {
-      const resultado = await api.get(`producto/${nombreProducto}`)
-      setResultadoBusqueda(resultado.data)
+      const resultado = await api.get(`producto/${nombreProducto}&${origen}`)
+      
+      for(let i = 0; i<resultado.data.length; i++){
+        if (resultado.data[0].origen == 'lacolonia'){  
+            resultado.data[i].logo = '/img/logolacolonia.webp'
+          }else{
+            resultado.data[i].logo = '/img/Walmart-Logo.png'
+          }
+        }
+        setResultadoBusqueda(resultado.data)     
     } catch (error) {
       console.error("Error al buscar el producto:", error)
     }
@@ -22,7 +34,13 @@ export default function ComponentBuscarProducto() {
   async function compararProducto(idProducto: number, origen: string) {
     try {
       const resultado = await api.get(`compararProducto/${idProducto}&${origen}`)
-      console.log(idProducto, origen)
+      for(let i = 0; i<resultado.data.length; i++){
+        if (resultado.data[0].origen == 'lacolonia'){  
+            resultado.data[i].logo = '/img/logolacolonia.webp'
+          }else{
+            resultado.data[i].logo = '/img/Walmart-Logo.png'
+          }
+        }
       setResultadoComparacion(resultado.data)
     } catch (error) {
       console.error("Error al comparar el producto:", error)
@@ -40,11 +58,39 @@ export default function ComponentBuscarProducto() {
           value={nombreProducto}
           onChange={event => setNombreProducto(event.target.value)}
         />
-        <button className="btn btn-outline-success" type="submit" onClick={() => { buscarProducto(nombreProducto) }}>
+        <button className="btn btn-outline-success" type="submit" onClick={() => { buscarProducto(nombreProducto, opcionBusqueda); }}>
           Buscar
         </button>
       </form>
-
+      <div>
+        <div className="form-check">
+          <input
+            className="form-check-input"
+            type="radio"
+            name="flexRadioDefault"
+            id="flexRadioDefault1"
+            value='walmart'
+            checked = {opcionBusqueda === 'walmart'}
+            onChange={() => handleOpcionBusqueda('walmart')}
+          />
+          <label className="form-check-label" htmlFor="flexRadioDefault1">
+            Buscar en Walmart
+          </label>
+        </div>
+        <div className="form-check">
+          <input
+            className="form-check-input"
+            type="radio"
+            name="flexRadioDefault"
+            id="flexRadioDefault2"
+            checked = {opcionBusqueda === 'lacolonia'}
+            onChange={() =>setOpcionBusqueda('lacolonia')}
+          />
+          <label className="form-check-label" htmlFor="flexRadioDefault2">
+            Buscar en La Colonia
+          </label>
+        </div>
+      </div>
       <div className='row mt-4'>
         <div className='col-6'>
           <h4>Resultados de Búsqueda</h4>
@@ -54,7 +100,7 @@ export default function ComponentBuscarProducto() {
                 <button className="btn btn-outline-success" onClick={() => { compararProducto(producto.idProducto, producto.origen) }}>
                 <span className="badge rounded-pill text-bg-light">
                <div className='d-flex justify-content-center' style={{height: '50px', width: 'auto'}}>
-                      <img src="https://lacolonia.vtexassets.com/assets/vtex/assets-builder/lacolonia.theme-lacolonia/2.0.62/header/logo___21f6bc1bbf440d33ab34be9957832b19.png"  alt="..."  className='img-fluid'/>
+                      <img src={producto.logo}  alt="..."  className='img-fluid'/>
                     </div>  
                </span>
                   <div className="card mb-3" style={{ width: '18rem', border: '1px solid #28a745', borderRadius: '5px' }}>
@@ -80,7 +126,7 @@ export default function ComponentBuscarProducto() {
                 <button className="btn btn-outline-success">
                 <span className="badge rounded-pill text-bg-light">
                <div className='d-flex justify-content-center' style={{height: '50px', width: 'auto'}}>
-                      <img src="https://lacolonia.vtexassets.com/assets/vtex/assets-builder/lacolonia.theme-lacolonia/2.0.62/header/logo___21f6bc1bbf440d33ab34be9957832b19.png"  alt="..."  className='img-fluid'/>
+                      <img src={producto.logo}  alt="..."  className='img-fluid'/>
                     </div>  
                </span>
                   <div className="card mb-3" style={{ width: '18rem', border: '1px solid #28a745', borderRadius: '5px' }}>
