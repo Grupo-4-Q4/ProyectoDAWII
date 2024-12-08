@@ -32,7 +32,7 @@ const Producto_Colonia = sequelize.define('producto',{
         type: DataTypes.STRING,
         allowNull:false
 
-    }
+    },
 },
 {
     tableName:'productos-colonia',

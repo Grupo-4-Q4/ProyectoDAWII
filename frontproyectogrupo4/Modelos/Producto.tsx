@@ -5,5 +5,6 @@ export interface Producto{
     imagenProducto: string,
     disponible: boolean,
     categotia: string,
-    origen: string
+    origen: string,
+    logo: string
 }
