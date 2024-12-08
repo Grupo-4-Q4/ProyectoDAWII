@@ -7,7 +7,7 @@ export default function NavbarComponet() {
       <nav className="navbar navbar-expand-lg bg-body-tertiary">
         <div className="container-fluid">
           <a className="navbar-brand" href="#">
-            Navbar
+            
           </a>
           <button
             className="navbar-toggler"
@@ -24,13 +24,11 @@ export default function NavbarComponet() {
             <ul className="navbar-nav">
               <li className="nav-item">                
                 <Link className="nav-link active" aria-current="page" href="/login">
-                    Login
+                    Cerrar Sesión
                 </Link>
               </li>
               <li className="nav-item">
-              <Link className="nav-link active" aria-current="page" href="/buscarproducto">
-                  Comparar un Producto
-                </Link>
+              
               </li>
               <li className="nav-item">
               <Link className="nav-link active" aria-current="page" href="/crearListaProductos">
@@ -43,9 +41,6 @@ export default function NavbarComponet() {
                 </Link>
               </li>
               <li className="nav-item">
-              <Link className="nav-link active" aria-current="page" href="/registro">
-                  Registrarse
-                </Link>
               </li>
             </ul>
           </div>
