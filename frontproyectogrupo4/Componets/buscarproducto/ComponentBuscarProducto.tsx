@@ -1,57 +1,102 @@
-'use client';
-import React, { useState } from 'react';
+'use client'
+import { Producto } from '@/Modelos/Producto'
+import api from '@/Service/api'
+import React, { useState } from 'react'
+import { useRouter } from 'next/navigation';
 
+export default function ComponentBuscarProducto() {
+  const [nombreProducto, setNombreProducto] = useState<string>('')
+  const [resultadoBusqueda, setResultadoBusqueda] = useState<Producto[]>([])
+  const [resultadoComparacion, setResultadoComparacion] = useState<Producto[]>([])
+  const router = useRouter() 
 
-const ComponentBuscarProducto: React.FC = () => {
-  const [searchTerm, setSearchTerm] = useState('');
-  const [products, setProducts] = useState<any[]>([]);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState('');
-
-  const handleSearch = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    if (!searchTerm) return;
-
-    setLoading(true);
-    setError('');
-    setProducts([]);
-
+  async function buscarProducto(nombreProducto: string) {
     try {
-      // Cambiar la URL para usar el parámetro de ruta
-      const response = await fetch(`http://localhost:5000/producto:nombreProducto`);
-      if (!response.ok) {
-        throw new Error('Error fetching products');
-      }
-      const data = await response.json();
-      setProducts(data);
-    } catch (err) {
-      setError('No se encontraron productos o hubo un error en la búsqueda.');
-    } finally {
-      setLoading(false);
+      const resultado = await api.get(`producto/${nombreProducto}`)
+      setResultadoBusqueda(resultado.data)
+    } catch (error) {
+      console.error("Error al buscar el producto:", error)
     }
-  };
+  }
+
+  async function compararProducto(idProducto: number, origen: string) {
+    try {
+      const resultado = await api.get(`compararProducto/${idProducto}&${origen}`)
+      console.log(idProducto, origen)
+      setResultadoComparacion(resultado.data)
+    } catch (error) {
+      console.error("Error al comparar el producto:", error)
+    }
+  }
 
   return (
-    <div>
-      <h1>Buscar Producto</h1>
-      <form onSubmit={handleSearch}>
+    <div className='container mt-5'>
+      <form className="d-flex mb-4" onSubmit={(e) => e.preventDefault()}>
         <input
-          type="text"
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-          placeholder="Buscar producto..."
+          className="form-control me-2"
+          type="search"
+          placeholder="Ingrese el nombre de un producto"
+          aria-label="Search"
+          value={nombreProducto}
+          onChange={event => setNombreProducto(event.target.value)}
         />
-        <button type="submit">Buscar</button>
+        <button className="btn btn-outline-success" type="submit" onClick={() => { buscarProducto(nombreProducto) }}>
+          Buscar
+        </button>
       </form>
-      {loading && <p>Cargando...</p>}
-      {error && <p style={{ color: 'red' }}>{error}</p>}
-      <ul>
-        {products.map(product => (
-          <li key={product.id}>{product.name}</li>
-        ))}
-      </ul>
-    </div>
-  );
-};
 
-export default ComponentBuscarProducto;
+      <div className='row mt-4'>
+        <div className='col-6'>
+          <h4>Resultados de Búsqueda</h4>
+          <ul className="list-group">
+            {resultadoBusqueda.map((producto) => (
+              <li className="list-group-item justify-content-center d-flex" key={producto.idProducto}>
+                <button className="btn btn-outline-success" onClick={() => { compararProducto(producto.idProducto, producto.origen) }}>
+                  <div className="card mb-3" style={{ width: '18rem', border: '1px solid #28a745', borderRadius: '5px' }}>
+                    <div className='d-flex justify-content-center m-3' style={{ height: '150px', width: 'auto' }}>
+                      <img src={producto.imagenProducto} alt={producto.nombreProducto} className='img-fluid' style={{ borderRadius: '5px' }} />
+                    </div>
+                    <div className="card-body text-center">
+                      <h5 className="card-title">{producto.precioProducto} LPS.</h5>
+                      <p className="card-text">{producto.nombreProducto}</p>
+                    </div>
+                  </div>
+                </button>
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        <div className="col-6">
+          <h4>Resultados de Comparación</h4>
+          <ul className="list-group">
+            {resultadoComparacion.map((producto) => (
+              <li className="list-group-item justify-content-center d-flex" key={producto.idProducto}>
+                <button className="btn btn-outline-success">
+                  <div className="card mb-3" style={{ width: '18rem', border: '1px solid #28a745', borderRadius: '5px' }}>
+                    <div className='d-flex justify-content-center m-3' style={{ height: '200px', width: 'auto' }}>
+                      <img src={producto.imagenProducto} alt={producto.nombreProducto} className="img-fluid" style={{ borderRadius: '5px' }} />
+                    </div>
+                    <div className="card-body text-center">
+                      <h5 className="card-title">{producto.precioProducto} LPS.</h5>
+                      <p className="card-text">{producto.nombreProducto}</p>
+                    </div>
+                  </div>
+                </button>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+
+      <div className='mt-4 text-center'>
+        <button className="btn btn-primary me-2" onClick={() => router.push('/login')}>
+          Volver a Iniciar Sesión
+        </button>
+        <button className="btn btn-secondary" onClick={() => router.push('/registro')}>
+          Volver a Registro
+        </button>
+      </div>
+    </div>
+  )
+}
