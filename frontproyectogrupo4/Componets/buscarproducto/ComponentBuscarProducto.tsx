@@ -48,10 +48,15 @@ export default function ComponentBuscarProducto() {
       <div className='row mt-4'>
         <div className='col-6'>
           <h4>Resultados de Búsqueda</h4>
-          <ul className="list-group">
+          <ul className="list-group overflow-auto" style={{maxHeight:'100vh'}}>
             {resultadoBusqueda.map((producto) => (
               <li className="list-group-item justify-content-center d-flex" key={producto.idProducto}>
                 <button className="btn btn-outline-success" onClick={() => { compararProducto(producto.idProducto, producto.origen) }}>
+                <span className="badge rounded-pill text-bg-light">
+               <div className='d-flex justify-content-center' style={{height: '50px', width: 'auto'}}>
+                      <img src="https://lacolonia.vtexassets.com/assets/vtex/assets-builder/lacolonia.theme-lacolonia/2.0.62/header/logo___21f6bc1bbf440d33ab34be9957832b19.png"  alt="..."  className='img-fluid'/>
+                    </div>  
+               </span>
                   <div className="card mb-3" style={{ width: '18rem', border: '1px solid #28a745', borderRadius: '5px' }}>
                     <div className='d-flex justify-content-center m-3' style={{ height: '150px', width: 'auto' }}>
                       <img src={producto.imagenProducto} alt={producto.nombreProducto} className='img-fluid' style={{ borderRadius: '5px' }} />
@@ -69,10 +74,15 @@ export default function ComponentBuscarProducto() {
 
         <div className="col-6">
           <h4>Resultados de Comparación</h4>
-          <ul className="list-group">
+          <ul className="list-group overflow-auto" style={{maxHeight:'100vh'}}>
             {resultadoComparacion.map((producto) => (
               <li className="list-group-item justify-content-center d-flex" key={producto.idProducto}>
                 <button className="btn btn-outline-success">
+                <span className="badge rounded-pill text-bg-light">
+               <div className='d-flex justify-content-center' style={{height: '50px', width: 'auto'}}>
+                      <img src="https://lacolonia.vtexassets.com/assets/vtex/assets-builder/lacolonia.theme-lacolonia/2.0.62/header/logo___21f6bc1bbf440d33ab34be9957832b19.png"  alt="..."  className='img-fluid'/>
+                    </div>  
+               </span>
                   <div className="card mb-3" style={{ width: '18rem', border: '1px solid #28a745', borderRadius: '5px' }}>
                     <div className='d-flex justify-content-center m-3' style={{ height: '200px', width: 'auto' }}>
                       <img src={producto.imagenProducto} alt={producto.nombreProducto} className="img-fluid" style={{ borderRadius: '5px' }} />
