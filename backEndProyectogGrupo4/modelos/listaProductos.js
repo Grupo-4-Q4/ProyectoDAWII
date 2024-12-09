@@ -11,6 +11,22 @@ const ListaProductos = sequelize.define('listaproductos',{
     idUsuario:{
         type: DataTypes.INTEGER,
         allowNull: false
+    },
+    origen:{
+        type: DataTypes.STRING,
+        allowNull: false
+    },
+    numeroProductos:{
+        type: DataTypes.INTEGER,
+        allowNull: false
+    },
+    totalProducto:{
+        type: DataTypes.DECIMAL,
+        allowNull: false
+    },
+    totalComparacion:{
+        type: DataTypes.DECIMAL,
+        allowNull: false
     }
 },
     {
@@ -18,6 +34,9 @@ const ListaProductos = sequelize.define('listaproductos',{
         timestamps: false
     }
 )
-ListaProductos.hasMany(DetalleLista)
-DetalleLista.belongsTo(ListaProductos)
+
+ListaProductos.hasMany(DetalleLista,{
+    foreignKey: 'idLista'
+})
+
 export default ListaProductos

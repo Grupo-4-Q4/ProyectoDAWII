@@ -1,7 +1,6 @@
 import { DataTypes } from "sequelize";
 import sequelize from "../db/coneccion.js";
 
-
 const DetalleLista = sequelize.define(
   "detallelistas",
   {
@@ -19,8 +18,24 @@ const DetalleLista = sequelize.define(
       type: DataTypes.INTEGER,
       allowNull: false,
     },
-    origen: {
+    nombreProducto: {
       type: DataTypes.STRING,
+      allowNull: false,
+    },
+    precioProducto: {
+      type: DataTypes.DECIMAL,
+      allowNull: false,
+    },
+    comparacionId: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+    },
+    nombreComparacion: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    precioComparacion: {
+      type: DataTypes.DECIMAL,
       allowNull: false,
     },
   },

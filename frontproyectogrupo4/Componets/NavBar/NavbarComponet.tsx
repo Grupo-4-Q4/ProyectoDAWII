@@ -41,6 +41,9 @@ export default function NavbarComponet() {
                 </Link>
               </li>
               <li className="nav-item">
+              <Link className="nav-link active" aria-current="page" href="/mostrarListas">
+                  Ver Mis Listas
+                </Link>
               </li>
             </ul>
           </div>
