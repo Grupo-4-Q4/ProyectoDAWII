@@ -38,7 +38,7 @@ export default function ComponentLogin() {
     //console.log('Usuario encontrado:', usuario);
 
     if (usuario) {
-      router.push('/crearListaProductos');
+      router.push(`/mostrarListas?usuarioId=${usuario.idUsuario}`);
     } else {
       setError('Correo o contraseña incorrectos.');
     }

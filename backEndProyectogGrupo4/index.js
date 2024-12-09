@@ -1,8 +1,6 @@
 import express from "express";
 import Usuario from "./modelos/usuarioModelo.js";
 import cors from "cors";
-import scrapingColonia from "./scraping/lacolonia.js";
-import scrapingWalmart from "./scraping/walmart.js";
 import Producto_Colonia from "./modelos/productoColonia.js";
 import Producto_Walmart from "./modelos/productoWalmart.js";
 import stringComparison from "string-comparison";
@@ -84,10 +82,13 @@ app.get("/compararProducto/:productoID&:origen", async (req, res) => {
         producto.nombreProducto,
         Producto[0].nombreProducto
       );
-      if (distancia < 30 && producto.nombreProducto.includes(listaNombreProducto[0])) {
-        listadoRespuesta = [...listadoRespuesta, producto];
-      }else if(distancia < 30 && producto.nombreProducto.includes(listaNombreProducto[1])){
-        listadoRespuesta = [...listadoRespuesta, producto];
+      if (distancia < 30) {
+        const listaNombreComparacion = producto.nombreProducto.split(' ')
+        if(listaNombreComparacion[0] == listaNombreProducto[0]){
+          listadoRespuesta = [...listadoRespuesta, producto];
+        }else if(listaNombreComparacion[1] == listaNombreProducto[0]){
+          listadoRespuesta = [...listadoRespuesta, producto];
+        }       
       }
     });
     res.status(200).json(listadoRespuesta);
@@ -103,10 +104,13 @@ app.get("/compararProducto/:productoID&:origen", async (req, res) => {
         producto.nombreProducto,
         Producto[0].nombreProducto
       );
-      if (distancia < 30 && producto.nombreProducto.includes(listaNombreProducto[0])) {
-        listadoRespuesta = [...listadoRespuesta, producto];
-      } else if(distancia < 30 && producto.nombreProducto.includes(listaNombreProducto[1])){
-        listadoRespuesta = [...listadoRespuesta, producto];
+      if (distancia < 30) {
+        const listaNombreComparacion = producto.nombreProducto.split(' ')
+        if(listaNombreComparacion[0] == listaNombreProducto[0]){
+          listadoRespuesta = [...listadoRespuesta, producto];
+        }else if(listaNombreComparacion[1] == listaNombreProducto[0]){
+          listadoRespuesta = [...listadoRespuesta, producto];
+        }       
       }
     });
     res.status(200).json(listadoRespuesta);
@@ -147,38 +151,33 @@ app.delete("/usuario:idUsuario", async (req, res) => {
 
 app.post("/listaproductos", async (req, res) => {
   try {
-    const idUsuario = req.body.idUsuario;
-    const lista = req.body.lista;
-    const nuevalista = await ListaProductos.create({ idUsuario });
-
-    for (let i = 0; i < lista.length; i++) {
-      const detalle = await DetalleLista.create({
-        idLista: nuevalista.idLista,
-        productoId: lista[i].productoID,
-        origen: lista[i].origen,
-      });
-    }
-
-    res.status(200).send({ mensaje: "Lista Guardada con Exito" });
+    const nuevalista = await ListaProductos.create(req.body);   
+    res.status(200).json(nuevalista);
   } catch (error) {
     res.status(500).json({ error: "Ocurrio un error" + error });
   }
 });
 
+app.post("/detallelista", async (req, res) => {
+  try {
+    console.log(req.body)
+      const detalle = await DetalleLista.create(req.body);    
 
-app.listen(5000, () => {
-  console.log("aplicacion ejecutando en el puerto 5000");
+    res.status(200).send({ mensaje: "detalle guardado con exito" });
+  } catch (error) {
+    res.status(500).json({ error: "Ocurrio un error" + error });
+  }
 });
 
-app.get("/listaproductos", async (req, res) => {
+app.get("/listaproductosporid/:idLista", async (req, res) => {
+const idLista = req.params.idLista
   try {
-    const lista = ListaProductos.findAll({
-      include: [
-        {
-          model: DetalleLista,
-          required: true,
-        },
-      ],
+    const lista = await ListaProductos.findAll({
+      include: [{
+        model:DetalleLista,
+        required: true
+      }],
+      where:{idLista : idLista}
     });
     res.status(200).json(lista);
   } catch (error) {
@@ -186,3 +185,18 @@ app.get("/listaproductos", async (req, res) => {
   }
 });
 
+app.get("/listaproductosporusuario/:idUsuario", async (req, res) => {
+  const idUsuario = req.params.idUsuario
+    try {
+      const lista = await ListaProductos.findAll({
+        where:{idUsuario : idUsuario}
+      });
+      res.status(200).json(lista);
+    } catch (error) {
+      res.status(500).json({ error: "Ocurrio un error" + error });
+    }
+  });  
+
+app.listen(5000, () => {
+  console.log("aplicacion ejecutando en el puerto 5000");
+});

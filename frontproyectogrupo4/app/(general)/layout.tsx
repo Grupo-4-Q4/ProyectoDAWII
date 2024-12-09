@@ -1,4 +1,5 @@
 import NavbarComponet from "@/Componets/NavBar/NavbarComponet";
+import ProveedorContexto from "@/Context/ProveedorContexto";
 
 export default function layoutComparador({
  children
@@ -7,8 +8,11 @@ export default function layoutComparador({
 }) {
   return (
     <div>
+      <ProveedorContexto>
       <NavbarComponet></NavbarComponet>
       {children}
+      </ProveedorContexto>
+     
     </div>
   );
 }
