@@ -16,6 +16,7 @@ const Usuario = sequelize.define(
     Email: {
       type: DataTypes.STRING,
       allowNull: false,
+      //unique: true,
     },
     fechaNacimiento: {
       type: DataTypes.DATE,

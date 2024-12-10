@@ -35,8 +35,8 @@ app.get("/usuario", async (req, res) => {
   }
 });
 
-
 app.post("/usuario", async (req, res) => {
+
   try {
     const usuario = await Usuario.create(req.body);
     res.status(201).json({ mensaje: "usuario creado con exito" });
@@ -44,6 +44,24 @@ app.post("/usuario", async (req, res) => {
     res.status(500).json({ error: "Ocurrio un error" + error });
   }
 });
+
+/*
+app.post("/usuario", async (req, res) => {
+  try {
+    const usuario = await Usuario.create(req.body);
+    res.status(201).json({ mensaje: "Usuario creado con éxito" });
+  } catch (error) {
+    if (error.name === 'SequelizeUniqueConstraintError') {
+      // Detectar si el error proviene de la restricción de unicidad
+      res.status(400).json({ error: "El correo ya está registrado" });
+    } else {
+      console.error("Error al crear el usuario:", error);
+      res.status(500).json({ error: "Ocurrió un error: " + error.message });
+    }
+  }
+});*/
+
+
 
 app.get("/producto/:nombreProducto&:origen", async (req, res) => {
   try {

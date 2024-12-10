@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import api from "@/Service/api";
@@ -14,6 +14,30 @@ export default function ComponentLogin() {
   const [password, setPassword] = useState<string>('');
   const [error, setError] = useState<string>('');
 
+  const [usuarios, setUsuarios] = useState<Login[]>([]);
+  const router = useRouter();
+
+ 
+//
+const getUsuarios = async () => {
+  try {
+    const response = await api.get('usuario');
+    setUsuarios(response.data);
+    
+  } catch (error) {
+    alert('No se encuentran los datos');
+  }
+};
+
+useEffect(() => {
+  getUsuarios();
+}, []);
+
+
+//
+
+
+
   const guardarUsuario = async (event: React.FormEvent) => {
     event.preventDefault(); 
 
@@ -22,7 +46,26 @@ export default function ComponentLogin() {
       return;
     }
 
+    //    
+   
+  
+    //
+
+
     try {
+      const usuario = usuarios.find((usuario) => usuario.Email === Email);
+      //console.log('Usuario encontrado:', usuario);
+    
+      if (usuario) {
+        setError('El usuario ya existe, favor introduzca uno nuevo');
+        return;        
+      }
+
+      if (password.length<8) {
+        setError('La contraseña debe tener al menos 8 caractéres');
+        return;        
+      }
+
       const nuevoUsuario = { 
         nombreCompleto, 
         Email, 
@@ -30,6 +73,8 @@ export default function ComponentLogin() {
         telefono, 
         password 
       };
+
+
 
       await api.post("/usuario", nuevoUsuario);
       alert("Registro realizado con éxito");
@@ -39,6 +84,7 @@ export default function ComponentLogin() {
       setFechaNacimiento("");
       setTelefono("");
       setPassword("");
+      setError("");
     } catch (error) {
       console.error("Error al guardar el usuario:", error);
       alert("No se pudo realizar el registro: " + error);
@@ -68,6 +114,8 @@ export default function ComponentLogin() {
                       required
                     />
                   </div>
+
+                  
                   <div className="mb-3">
                     <input
                       type="email"
