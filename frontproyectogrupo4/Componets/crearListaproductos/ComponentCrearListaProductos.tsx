@@ -263,7 +263,6 @@ export default function ComponentCrearListaProductos() {
                         {producto.precioProducto}LPS.
                       </h5>
                       <p className="card-text"> {producto.nombreProducto}</p>
-                      <p>{producto.origen}</p>
                     </div>
                   </div>
                 </button>
