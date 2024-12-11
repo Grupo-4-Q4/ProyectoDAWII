@@ -3,7 +3,7 @@ import { Sequelize } from "sequelize";
 const sequelize = new Sequelize(
     'proyecto',
     'root',
-    'fabuloso25',
+    'MySecretPassword',
     {
         host: process.env.host,
         port: process.env.port,
