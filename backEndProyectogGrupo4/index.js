@@ -158,6 +158,28 @@ app.post("/listaproductos", async (req, res) => {
   }
 });
 
+app.delete("/listaproductos/:idLista", async (req, res)=>{
+  try {
+    await ListaProductos.destroy({
+      where:{idLista:req.params.idLista}
+    })
+    res.status(200).json({ mensaje: "Lista Eliminada Exitosamente"});
+  } catch (error) {
+    res.status(500).json({ error: "Ocurrio un error" + error });
+  }
+})
+
+app.delete("/detallelista/:idLista", async (req,res)=>{
+  try {
+      await DetalleLista.destroy({
+        where:{idLista:req.params.idLista}
+      })
+      res.status(200).json({ mensaje: "Lista Eliminada Exitosamente"});
+  } catch (error) {
+    res.status(500).json({ error: "Ocurrio un error" + error });
+  }
+})
+
 app.post("/detallelista", async (req, res) => {
   try {
     console.log(req.body)
