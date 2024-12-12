@@ -19,9 +19,6 @@
 -- Table structure for table `usuarios`
 --
 
-create database proyecto;
-use proyecto;
-
 DROP TABLE IF EXISTS `usuarios`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
@@ -29,11 +26,11 @@ CREATE TABLE `usuarios` (
   `idUsuario` int NOT NULL AUTO_INCREMENT,
   `nombreCompleto` varchar(100) NOT NULL,
   `Email` varchar(100) NOT NULL,
-  `fechaNacimiento` varchar(12) NOT NULL,
+  `fechaNacimiento` date NOT NULL,
   `telefono` varchar(10) NOT NULL,
   `password` varchar(45) NOT NULL,
   PRIMARY KEY (`idUsuario`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -42,6 +39,7 @@ CREATE TABLE `usuarios` (
 
 LOCK TABLES `usuarios` WRITE;
 /*!40000 ALTER TABLE `usuarios` DISABLE KEYS */;
+INSERT INTO `usuarios` VALUES (1,'josue','email','1993-11-15','123','patata'),(2,'Josue Santos','jisai2558@gmail.com','1993-11-15','95486663','1234');
 /*!40000 ALTER TABLE `usuarios` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -54,4 +52,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-11-29 15:09:51
+-- Dump completed on 2024-12-11 18:25:41

@@ -16,29 +16,33 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `usuarios`
+-- Table structure for table `listasproductos`
 --
 
-DROP TABLE IF EXISTS `usuarios`;
+DROP TABLE IF EXISTS `listasproductos`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `usuarios` (
-  `idUsuario` int NOT NULL AUTO_INCREMENT,
-  `nombreCompleto` varchar(100) NOT NULL,
-  `Email` varchar(100) NOT NULL,
-  `fechaNacimiento` varchar(12) NOT NULL,
-  `telefono` varchar(10) NOT NULL,
-  PRIMARY KEY (`idUsuario`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+CREATE TABLE `listasproductos` (
+  `idLista` int NOT NULL AUTO_INCREMENT,
+  `idUsuario` int NOT NULL,
+  `origen` varchar(45) NOT NULL,
+  `numeroProductos` int NOT NULL,
+  `totalProducto` decimal(10,0) NOT NULL,
+  `totalComparacion` decimal(10,0) NOT NULL,
+  PRIMARY KEY (`idLista`),
+  KEY `idUsuario` (`idUsuario`),
+  CONSTRAINT `listasproductos_ibfk_1` FOREIGN KEY (`idUsuario`) REFERENCES `usuarios` (`idUsuario`)
+) ENGINE=InnoDB AUTO_INCREMENT=30 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `usuarios`
+-- Dumping data for table `listasproductos`
 --
 
-LOCK TABLES `usuarios` WRITE;
-/*!40000 ALTER TABLE `usuarios` DISABLE KEYS */;
-/*!40000 ALTER TABLE `usuarios` ENABLE KEYS */;
+LOCK TABLES `listasproductos` WRITE;
+/*!40000 ALTER TABLE `listasproductos` DISABLE KEYS */;
+INSERT INTO `listasproductos` VALUES (17,1,'walmart',2,84,122),(18,1,'walmart',2,84,122),(19,1,'walmart',2,84,122),(20,1,'walmart',2,84,122),(21,1,'walmart',1,45,281),(22,1,'walmart',2,136,69),(23,1,'walmart',2,180,285),(24,1,'walmart',1,52,11),(29,2,'walmart',3,110,142);
+/*!40000 ALTER TABLE `listasproductos` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -50,4 +54,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-11-29 14:24:00
+-- Dump completed on 2024-12-11 18:25:41
